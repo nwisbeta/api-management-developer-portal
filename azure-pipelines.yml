@@ -18,3 +18,13 @@ steps:
 - script: |
     npm install
   displayName: 'npm install and publish'
+
+- task: FileTransform@2
+  inputs:
+    folderPath: '$(System.DefaultWorkingDirectory)/src'
+    xmlTransformationRules: 
+    jsonTargetFiles: 'config.publish.json'
+
+- script: |
+    npm publish
+  displayName: npm publish
