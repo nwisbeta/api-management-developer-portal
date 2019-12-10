@@ -28,3 +28,11 @@ steps:
 - script: |
     npm run publish
   displayName: npm run publish
+
+- task: AzureFileCopy@3
+  inputs:
+    SourcePath: '$(System.DefaultWorkingDirectory)/dist/website'
+    azureSubscription: 'Visual Studio Enterprise with MSDN(afa26d9b-b46c-4b1f-a19d-675504250a36)'
+    Destination: 'AzureBlob'
+    storage: 'dhewportal'
+    ContainerName: '$web'
