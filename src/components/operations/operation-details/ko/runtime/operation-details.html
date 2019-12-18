@@ -53,7 +53,7 @@
                         <div class="col-1" data-bind="text: parameter.in"></div>
                         <div class="col-1" data-bind="text: parameter.required"></div>
                         <div class="col-1" data-bind="text: parameter.type"></div>
-                        <div class="col-6" data-bind="text: parameter.description"></div>
+                        <div class="col-6" data-bind="markdown: parameter.description"></div>
                     </div>
                     <!-- /ko -->
                 </div>
@@ -89,8 +89,8 @@
             <!-- ko if: request.isMeaningful() -->
             <h4>Request body</h4>
 
-            <!-- ko if: request.representations.length > 0 -->
-            <div class="tabs" data-bind="foreach: { data: request.representations, as: 'representation' }">
+            <!-- ko if: request.meaningfulRepresentations().length > 0 -->
+            <div class="tabs" data-bind="foreach: { data: request.meaningfulRepresentations(), as: 'representation' }">
                 <input class="tab-radio" type="radio" name="requestContentType"
                     data-bind="attr : { id: 'request' + representation.contentType, checked: $index() === 0 }">
 
@@ -111,9 +111,12 @@
 
             <!-- ko foreach: { data: operation().getMeaningfulResponses(), as: 'response' } -->
             <h3>Response: <span data-bind="text: response.statusCode"></span></h3>
+            <!-- ko if: response.description -->
+            <p data-bind="text: response.description"></p>
+            <!-- /ko -->
 
-            <!-- ko if: response.representations.length > 0 -->
-            <div class="tabs" data-bind="foreach: { data: representations, as: 'representation' }">
+            <!-- ko if: response.meaningfulRepresentations().length > 0 -->
+            <div class="tabs" data-bind="foreach: { data: meaningfulRepresentations(), as: 'representation' }">
                 <input class="tab-radio" type="radio"
                     data-bind="attr: { id: response.identifier + representation.contentType, name: response.identifier, checked: $index() === 0 }">
 

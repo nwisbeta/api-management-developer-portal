@@ -15,7 +15,11 @@ export class Response {
      * Returns "true" if this response is meaningful from documentation prospective.
      */
     public isMeaningful(): boolean {
-        return this.representations.some(x => !!x.typeName);
+        return !!this.description || this.representations.some(x => !!x.typeName);
+    }
+
+    public meaningfulRepresentations(): Representation[] {
+        return this.representations.filter(x => !!x.typeName || !!x.sample);
     }
 
     constructor(contract?: ResponseContract) {
