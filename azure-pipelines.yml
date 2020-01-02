@@ -22,7 +22,6 @@ steps:
 - task: FileTransform@2
   inputs:
     folderPath: '$(System.DefaultWorkingDirectory)/src'
-    xmlTransformationRules: 
     jsonTargetFiles: 'config.publish.json'
 
 - script: |
