@@ -22,13 +22,24 @@ steps:
 - task: FileTransform@2
   inputs:
     folderPath: '$(System.DefaultWorkingDirectory)/src'
-    jsonTargetFiles: 'config.publish.json'
+    jsonTargetFiles: |
+      config.publish.json
+      config.design.json
 
 - script: |
     npm run publish
   displayName: npm run publish
 
+- script: |
+    npm run build-designer
+  displayName: npm run build-designer
+
 - task: PublishPipelineArtifact@1
   inputs:
     path: $(System.DefaultWorkingDirectory)/dist/website
     artifact: ApiPortal
+
+- task: PublishPipelineArtifact@1
+  inputs:
+    path: $(System.DefaultWorkingDirectory)/dist/designer
+    artifact: ApiDesigner
