@@ -25,6 +25,7 @@ steps:
     jsonTargetFiles: |
       config.publish.json
       config.design.json
+      config.runtime.json
 
 - script: |
     npm run publish
