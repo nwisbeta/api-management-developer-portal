@@ -24,7 +24,10 @@ steps:
     folderPath: '$(System.DefaultWorkingDirectory)/src'
     xmlTransformationRules: '-transform **\config.*.json'
     jsonTargetFiles: 'config.*.json'
-
+- task: AzureCLI@2
+  inputs:
+    scriptLocation: 'scriptPath'
+    scriptPath: 
 - script: |
     npm run publish
   displayName: npm run publish
