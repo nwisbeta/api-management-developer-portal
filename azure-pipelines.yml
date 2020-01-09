@@ -9,12 +9,6 @@ trigger:
 pool:
   vmImage: 'windows-2019'
 
-- task: DeleteFiles@1
-  inputs:
-    SourceFolder: '$(System.DefaultWorkingDirectory)'
-    Contents: '*'
-    RemoveSourceFolder: true
-
 steps:
 - task: NodeTool@0
   inputs:
