@@ -9,6 +9,12 @@ trigger:
 pool:
   vmImage: 'windows-2019'
 
+- task: DeleteFiles@1
+  inputs:
+    SourceFolder: '$(System.DefaultWorkingDirectory)'
+    Contents: '*'
+    RemoveSourceFolder: true
+
 steps:
 - task: NodeTool@0
   inputs:
@@ -22,10 +28,8 @@ steps:
 - task: FileTransform@2
   inputs:
     folderPath: '$(System.DefaultWorkingDirectory)/src'
-    jsonTargetFiles: |
-      config.publish.json
-      config.design.json
-      config.runtime.json
+    xmlTransformationRules: '-transform **\config.*.json'
+    jsonTargetFiles: 'config.*.json'
 
 - script: |
     npm run publish
