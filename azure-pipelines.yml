@@ -10,6 +10,12 @@ pool:
   vmImage: 'windows-2019'
 
 steps:
+
+- task: FileTransform@2
+  inputs:
+    folderPath: '$(System.DefaultWorkingDirectory)/src'
+    jsonTargetFiles: 'config.*'
+
 - task: NodeTool@0
   inputs:
     versionSpec: '10.x'
@@ -19,14 +25,6 @@ steps:
     npm install
   displayName: 'npm install'
 
-- task: FileTransform@2
-  inputs:
-    folderPath: '$(System.DefaultWorkingDirectory)/src'
-    jsonTargetFiles: 'config.*.json'
-- task: AzureCLI@2
-  inputs:
-    scriptLocation: 'scriptPath'
-    scriptPath: 
 - script: |
     npm run publish
   displayName: npm run publish
