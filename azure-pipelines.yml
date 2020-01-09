@@ -22,7 +22,6 @@ steps:
 - task: FileTransform@2
   inputs:
     folderPath: '$(System.DefaultWorkingDirectory)/src'
-    xmlTransformationRules: '-transform **\config.*.json'
     jsonTargetFiles: 'config.*.json'
 - task: AzureCLI@2
   inputs:
