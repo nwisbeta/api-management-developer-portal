@@ -10,6 +10,7 @@ import { TagGroup } from "../../../../../models/tagGroup";
 import { RouteHelper } from "../../../../../routing/routeHelper";
 import { Tag } from "../../../../../models/tag";
 import { Utils } from "../../../../../utils";
+import { ISettingsProvider } from "@paperbits/common/configuration";
 
 
 @RuntimeComponent({
@@ -21,7 +22,9 @@ import { Utils } from "../../../../../utils";
 })
 export class OperationList {
     private searchRequest: SearchQuery;
+    private userGuideList: string[] = [];
 
+    public readonly userGuideUrl: ko.Computed<string>;
     public readonly selectedApiName: ko.Observable<string>;
     public readonly selectedOperationName: ko.Observable<string>;
     public readonly operations: ko.ObservableArray<Operation>;
@@ -40,7 +43,8 @@ export class OperationList {
     constructor(
         private readonly apiService: ApiService,
         private readonly router: Router,
-        private readonly routeHelper: RouteHelper
+        private readonly routeHelper: RouteHelper,
+        private readonly settingsProvider: ISettingsProvider
     ) {
         this.detailsPageUrl = ko.observable();
         this.allowSelection = ko.observable(false);
@@ -63,7 +67,13 @@ export class OperationList {
         this.hasNextPage = ko.observable();
         this.hasPrevPage = ko.observable();
         this.hasPager = ko.computed(() => this.hasPrevPage() || this.hasNextPage());
-        this.tagScope = ko.computed(() => this.selectedApiName() ? `apis/${this.selectedApiName()}`: "");
+        this.tagScope = ko.computed(() =>
+        this.selectedApiName()
+        ? `apis/${this.selectedApiName()}`
+        : "");
+        this.userGuideUrl = ko.computed(() => this.userGuideList && this.userGuideList.includes(this.selectedApiName())
+         ? `/api-guides/${this.selectedApiName()}/overview`
+         : "");
     }
 
     @Param()
@@ -88,6 +98,9 @@ export class OperationList {
     public async initialize(): Promise<void> {
         const apiName = this.routeHelper.getApiName();
         const operationName = this.routeHelper.getOperationName();
+        const settings = await this.settingsProvider.getSettings();
+        
+        this.userGuideList = settings["apisWithGuides"];
 
         this.selectedApiName(apiName);
         this.selectedOperationName(operationName);
