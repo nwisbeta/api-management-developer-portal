@@ -64,7 +64,7 @@ export class OperationList {
         this.selectedApiName()
         ? `apis/${this.selectedApiName()}`
         : "");
-        this.userGuideUrl = ko.computed(() => this.userGuideList.includes(this.selectedApiName())
+        this.userGuideUrl = ko.computed(() => this.userGuideList && this.userGuideList.includes(this.selectedApiName())
          ? `/api-guides/${this.selectedApiName()}/overview`
          : "");
     }
