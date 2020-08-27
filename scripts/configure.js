@@ -11,12 +11,17 @@ const storageConnectionStringValue = process.argv[5];
 const backendUrlValue = process.argv[6];
 const apimServiceNameValue = process.argv[7];
 const apimServiceUrlValue = `https://${managementEndpoint}/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/xxxxx/providers/Microsoft.ApiManagement/service/${apimServiceNameValue}`;
+const hotJarId = process.argv[8];
+const appInsightsInstrumentationKey = process.argv[9];
+
 
 const apimServiceParameter = "managementApiUrl";
 const apimSasAccessTokenParameter = "managementApiAccessToken";
 const storageSasUrlParameter = "blobStorageUrl";
 const storageConnectionStringParameter = "blobStorageConnectionString";
 const backendUrlParameter = "backendUrl";
+const hotjarParameter = "hotJarId";
+const appInsightsParameter = "azureInsightsInstrumentationKey";
 
 fs.readFile(configDesignFile, {encoding: 'utf-8'}, function(err,data){
     if (!err) {
@@ -41,6 +46,8 @@ fs.readFile(configPublishFile, {encoding: 'utf-8'}, function(err,data){
         obj[apimServiceParameter] = apimServiceUrlValue;
         obj[apimSasAccessTokenParameter] = apimSasAccessTokenValue;
         obj[storageConnectionStringParameter] = storageConnectionStringValue;
+        obj[hotjarParameter] = hotJarId;
+        obj[appInsightsParameter] = appInsightsInstrumentationKey;
         fs.writeFile(configPublishFile, JSON.stringify(obj, null, 4), function(errWrite) {
             if(errWrite) {
                 return console.log(errWrite);

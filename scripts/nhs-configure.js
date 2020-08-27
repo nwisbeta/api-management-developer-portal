@@ -4,6 +4,8 @@ const { execSync } = require('child_process');
 
 const serviceName = process.argv[2];
 const accountKey = process.argv[3];
+const hotJarId = process.argv[4];
+const instrumentationKey = process.argv[5];
 
 setConfig()
 
@@ -48,11 +50,13 @@ async function setConfig(){
             `"${blobStorageUrl}"`,
             `"${blobStorageConnectionString}"`,
             `https://${serviceName}.developer.azure-api.net`,
-            serviceName
+            serviceName,
+            hotJarId,
+            instrumentationKey
         ]
         console.log(args)
         execSync(args.join(" "))
-
+        
     }
     catch(error){
         console.log(error)
