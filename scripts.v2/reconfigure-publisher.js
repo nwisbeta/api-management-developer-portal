@@ -9,10 +9,13 @@ const apimAccountKey = process.argv[3];
 
 const managementApiUrlValue = `https://${apimServiceNameValue}.management.azure-api.net/subscriptions/00000/resourceGroups/00000/providers/Microsoft.ApiManagement/service/${apimServiceNameValue}`;
 const managementApiAccessTokenValue = createSharedAccessToken("integration", apimAccountKey, 1);
-const hotJarIdValue = process.argv[4];
+let backendUrlValue = process.argv[4];
+let useHipCaptchaValue = true;
+if (backendUrlValue === "default") {
+    backendUrlValue = `https://${apimServiceNameValue}.developer.azure-api.net`;
+    useHipCaptchaValue = false;
+}
 const azureInsightsInstrumentationKeyValue = process.argv[5];
-const backendUrlValue = process.argv[6] || `https://${apimServiceNameValue}.developer.azure-api.net`;
-const useHipCaptchaValue = process.argv[6] ? true  : false;
 const apisWithGuidesValue = [];
 
 // publishConfig
@@ -20,7 +23,6 @@ const managementApiUrlParameter = "managementApiUrl";
 const managementApiAccessTokenParameter = "managementApiAccessToken";
 const environmentParameter = "environment";
 const useHipCaptchaParameter = "useHipCaptcha";
-const hotJarIdParameter = "hotJarId";
 const azureInsightsInstrumentationKeyParameter = "azureInsightsInstrumentationKey";
 
 // runtimeConfig
@@ -34,7 +36,6 @@ fs.readFile(configPublishFile, { encoding: 'utf-8' }, function (err, data) {
         obj[managementApiAccessTokenParameter] = managementApiAccessTokenValue;
         obj[environmentParameter] = "publishing";
         obj[useHipCaptchaParameter] = useHipCaptchaValue;
-        obj[hotJarIdParameter] = hotJarIdValue;
         obj[azureInsightsInstrumentationKeyParameter] = azureInsightsInstrumentationKeyValue;
 
         fs.writeFile(configPublishFile, JSON.stringify(obj, null, 4), function (errWrite) {

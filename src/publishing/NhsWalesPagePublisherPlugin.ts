@@ -12,25 +12,11 @@ export class NhsWalesPagePublisherPlugin implements HtmlPagePublisherPlugin {
         return new Promise(async (resolve, reject) => {
             try {
 
-                const hotJarId = settings["hotJarId"];
                 const instrumentationKey = settings["azureInsightsInstrumentationKey"];
 
-                if(hotJarId || instrumentationKey)
+                if(instrumentationKey)
                 {
                     const scriptTag = document.createElement("script");
-
-                    if(hotJarId)
-                    {
-                        scriptTag.innerHTML = `/* Hotjar Tracking Code */
-                        (function(h,o,t,j,a,r){
-                            h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
-                            h._hjSettings={hjid:${hotJarId},hjsv:6};
-                            a=o.getElementsByTagName('head')[0];
-                            r=o.createElement('script');r.async=1;
-                            r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
-                            a.appendChild(r);
-                        })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');`;    
-                    }
 
                     if(instrumentationKey)
                     {
